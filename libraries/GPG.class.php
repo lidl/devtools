@@ -342,7 +342,13 @@ class GPG {
 			$this->gpgenv['PATH'] = "/bin:/usr/bin";
 			$this->gpgenv['USER'] = $processUser['name'];
 			$this->gpgenv['HOME'] = "/tmp";
-			$this->gpgenv['SHELL'] = "/bin/bash";
+			if (file_exists('/bin/bash')) {
+				$this->gpgenv['SHELL'] = "/bin/bash";
+			} elseif (file_exists('/usr/local/bin/bash')) {
+				$this->gpgenv['SHELL'] = "/usr/local/bin/bash";
+			} else {
+				$this->gpgenv['SHELL'] = "/bin/sh";
+			}
 		}
 
 		$homedir = "--homedir $home";
